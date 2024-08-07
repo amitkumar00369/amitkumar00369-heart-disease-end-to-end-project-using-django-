@@ -1,7 +1,7 @@
 db.sqlite3
 .env
-\app1\migrations
-\app1\__pycache__
-\app2\migrations
-\app2\__pycache__
-\appenv
+app1\migrations
+app1\__pycache__
+app2\migrations
+app2\__pycache__
+appenv

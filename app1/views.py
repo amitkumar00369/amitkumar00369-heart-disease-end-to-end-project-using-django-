@@ -11,7 +11,8 @@ import pickle
 load_dotenv()
 import os
 secret=os.getenv('secret')
-print(secret)
+import warnings
+warnings.simplefilter('ignore')
 
 class userRegister(APIView):
     def post(self,request):
@@ -65,7 +66,7 @@ class Predict(APIView):
                 return Response({'message':"Enter token"})
             # print(token)
             decode=jwt.decode(token,secret,algorithms=['HS256'])
-            print(decode)
+            
             id=decode['id']
             user=SQLToken.objects.filter(token=token,userId=id)
             if not user:
@@ -73,16 +74,16 @@ class Predict(APIView):
             with open('myModel.pkl', 'rb') as file:
                 loaded_model = pickle.load(file)
             serializer=HelthSerializer(data=request.data)
-            print("hello")
+       
             if serializer.is_valid():
                 data=serializer.save()
                 result=loaded_model.predict([[data.age,data.sex,data.cp,data.trestbps,data.chol,data.fbs,
                                               data.restecg,data.thalach,data.exang,data.slope,data.ca,data.thal,
                                               data.new_oldpeak]])
-                print(result)
+             
                 data.result=result
                 data.save()
-                return Response({'message':"prediction",'data':serializer.data})
+                return Response({'message':"prediction rate 91%",'data':serializer.data})
         except jwt.ExpiredSignatureError as e:
             return Response(str(e))
         except jwt.InvalidTokenError as e:

@@ -10,7 +10,7 @@ from dotenv import load_dotenv
 load_dotenv()
 import os
 secret=os.getenv('secret')
-print(secret)
+
 
 class userSignup(APIView):
     def post(self, request):
